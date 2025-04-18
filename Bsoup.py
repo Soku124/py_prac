@@ -10,7 +10,7 @@ soup = BeautifulSoup(page.content, "html.parser")
 print(soup.text)
 
 print(soup.title)
-print(soup.title.name)
+print(soup.title.name)x
 print(soup.title.string)
 
 print(soup.find("a"))
