@@ -12,7 +12,7 @@ print(s.recv(1024).decode())
 s.close()
 
 client = False
-server = False
+server = True
 port = 8080
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,12 +31,12 @@ if client:
     print(s.recv(1024))
     s.close()
 
-for port in [22,80,139,445,443,8080]:
-    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    socket.setdefaulttimeout(1)
-    result = s.connect_ex(("127.0.0.1", port))
+# for port in [22,80,139,445,443,8080]:
+#     s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+#     socket.setdefaulttimeout(1)
+#     result = s.connect_ex(("127.0.0.1", port))
 
-    if result == 0:
-        print(f"{port} is open.")
-    else:
-        print(f"{port} is closed.")
+#     if result == 0:
+#         print(f"{port} is open.")
+#     else:
+#         print(f"{port} is closed.")
