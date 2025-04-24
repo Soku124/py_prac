@@ -6,7 +6,7 @@ def sleeper(i):
     time.sleep(i)
     print(f"goodbye from {i}")
 
-print(datetime.now().strftime("%H:%M:%S"))
+# print(datetime.now().strftime("%H:%M:%S"))
 
 # sleeper(0)
 # sleeper(1)
@@ -22,26 +22,41 @@ print(datetime.now().strftime("%H:%M:%S"))
 # threading.Timer(2, sleeper, [2]).start()
 # threading.Timer(3, sleeper, [3]).start()
 
-print(datetime.now().strftime("%H:%M:%S"))
+# print(datetime.now().strftime("%H:%M:%S"))
 
-stop = False
-def input_thread():
-    global stop
+# stop = False
+# def input_thread():
+#     global stop
+#     while True:
+#         user_input = input("Should we stop?: ")
+#         print(f">> User says: {user_input}")
+#         if user_input == "yes":
+#             stop = True
+#             break
+
+# def output_thread():
+#     global  stop
+#     count = 0
+#     while not stop:
+#         print(count)
+#         count+=1
+#         time.sleep(1)
+
+# t1 = threading.Thread(target=input_thread).start()
+# t2 = threading.Thread(target=output_thread).start()
+
+
+data_lock = threading.Lock()
+data = [x for x in range(1000)]
+
+def sync_consume_thread():
+    global data
     while True:
-        user_input = input("Should we stop?: ")
-        print(f">> User says: {user_input}")
-        if user_input == "yes":
-            stop = True
-            break
+        data_lock.acquire()
+        if len(data) > 0:
+            print(threading.current_thread().name,data.pop())
+        data_lock.release()
 
-def output_thread():
-    global  stop
-    count = 0
-    while not stop:
-        print(count)
-        count+=1
-        time.sleep(1)
-
-t1 = threading.Thread(target=input_thread).start()
-t2 = threading.Thread(target=output_thread).start()
-
+threading.Thread(target=sync_consume_thread).start()
+threading.Thread(target=sync_consume_thread).start()
+threading.Thread(target=sync_consume_thread).start()
